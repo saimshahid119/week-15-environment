@@ -1,0 +1,17 @@
+name: wf-develop-pr
+  on:
+    pull_requests:
+      branches:
+        - develop
+  jobs:
+    develop-pr-job:
+      runs-on: ubunto-latest
+      steps:
+        - name: checkout repo 
+          uses: actions/checkout@v4  
+        - name: lint hrtml and css  
+          run: |
+            npx htmlhint "**/*.html"
+            npx stylelint "**/*.css"
+        - name: build website
+          run : npx parcel build "./src/index.html" --dist-dir "./dev" --public-url "./"
